@@ -41,8 +41,15 @@ def cost_per_credit(annual_cost, credits):
 
 def cost_per_class(annual_cost, credits):
     """Give back what one 50-minute CS 1430 class meeting costs."""
-    class_cost = annual_cost / SEMESTERS_PER_YEAR
-    return class_cost
+    semester_cost = annual_cost / SEMESTERS_PER_YEAR
+    class_cost = semester_cost * (CS1430_CREDITS / credits)
+    return class_cost / CS1430_MEETINGS_PER_SEMESTER
+
+
+def cost_per_skip(annual_cost, credits, skipped_classes):
+    skip_cost = cost_per_class(annual_cost, credits) * skipped_classes
+    return skip_cost
+    
 
 
 # ---- PROGRAM ----
@@ -60,6 +67,7 @@ def main():
         print("3. Cost per day")
         print("4. Cost per credit")
         print("5. Cost per class")
+        print("6. Cost per skipped class")
         print("Q. Quit")
 
         choice = input("Choose an option: ")
@@ -76,6 +84,9 @@ def main():
             print (f"Cost per credit: ${cost_per_credit(annual_cost, credits):.2f}")
         elif choice == "5":
             print (f"Cost per class: ${cost_per_class(annual_cost, credits):.2f}")
+        elif choice == "6":
+            skipped_classes = int(input("Enter the amount of classes you skiped this semseter: "))
+            print(f"Cost per skipped class: ${cost_per_skip(annual_cost, credits, skipped_classes):.2f}")
         else:
             print("Invalid option. Please try again.")
         # Add a branch for each menu option here.
